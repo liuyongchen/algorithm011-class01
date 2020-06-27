@@ -83,3 +83,43 @@ func ExecuteInParallel(q *Queue, fn func(interface{}))
 
 priority queue 源码分析
 路径：go-datastructures/queue/priority_queue.go 
+
+PriorityQueue 结构体中包含五个字段
+
+waiters []*sema //与queue中类型一致
+
+items priorityitems 实质是[]item 包含get 和 insert两个方法，用于获取和插入元素
+
+lock  sync.Mutex
+
+disposeLock sync.Mutex
+
+disposed bool
+
+API
+func (pq *PriorityQueue) Put(items ...Item) error
+将元素推入队列，如果添加元素为空，不做任何操作返回
+循环遍历传入items，将元素添加进pq.items
+
+func (pq *PriorityQueue) Get(number int) ([]Item, error)
+从queue中获取number数量的数据，
+优先级的划分在pq.items.insert()方法中完成了优先级的判断，
+高优先级的数据会被插入到切片的最前面。
+
+func (pq *PriorityQueue) Peek() Item
+查看queue中第一个数据，当queue中为空的时候，返回nil
+
+func (pq *PriorityQueue) Empty() bool
+根据items的长度判断queue是否为空，当长度为0的时候，结果为true
+
+func (pq *PriorityQueue) Len() int
+根据items的长度获取对垒长度
+
+func (pq *PriorityQueue) Disposed() bool
+读取disposed 字段的值
+
+func (pq *PriorityQueue) Dispose()
+设置disposed 字段的值为true 重置所有切片为空触发垃圾回收，释放queue
+
+func NewPriorityQueue(hint int) *PriorityQueue 
+新建优先队列，初始化items 切片，设置切片长度为hint
