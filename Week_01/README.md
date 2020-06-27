@@ -42,7 +42,10 @@ func (q *Queue) Put(items ...interface{}) error
 
 不理解：等待组的处理
 
-for {
+
+{
+
+    for {
 
 		sema := q.waiters.get()
 		
