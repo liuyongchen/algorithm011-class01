@@ -1,11 +1,48 @@
 学习笔记
 
 #学号:G20200343080049
-#姓名:臣
-#班级:class01
-#语言:Go
-#作业链接:
-#总结链接:
+
+学习总结
+
+**1、算法处理思想**
+
+a.升维度
+
+b.空间换时间
+
+**2、三分看视频，七分练习**
+
+难点反复看
+
+摒弃旧习惯
+
+​    a.不要死磕
+
+​    b.五毒神掌（死记硬背优秀代码）
+
+​    c.多看高手代码（国际版高票回答）
+
+五步学习法（五毒神掌）
+
+​    a.多过遍数，而不是每一次花很多时间，难点重点题多做几次，面试前再做一次。
+
+​    b.多看高票和高质量题解，在学习工具，学习知识，不是在考试，不要耻于学习别人的 优秀题解。
+
+​    c.职业选手反复练习同一动作，普通玩家才只打排位不训练细节。
+
+五步：
+
+第一步：5-15分钟，读题思考；
+
+第二步：直接看题解，多解法比较优劣；
+
+第三步：背诵默写好的解法，立刻自己写leatcode 提交
+
+第四步：过一天后再重复做题，过一周后再重复做题
+
+第五步：面试前恢复性训练
+
+
 
 PS：
 1、刷题心得
@@ -46,28 +83,28 @@ func (q *Queue) Put(items ...interface{}) error
 {
 
     for {
-
-		sema := q.waiters.get()
-		
-		if sema == nil {
-		
-			break
-			
-		}
-		
-		sema.response.Add(1)
-		
-		sema.wg.Done()
-		
-		sema.response.Wait()
-		
-		if len(q.items) == 0 {
-		
-			break
-			
-		}
-		
-	}
+    
+    	sema := q.waiters.get()
+    	
+    	if sema == nil {
+    	
+    		break
+    		
+    	}
+    	
+    	sema.response.Add(1)
+    	
+    	sema.wg.Done()
+    	
+    	sema.response.Wait()
+    	
+    	if len(q.items) == 0 {
+    	
+    		break
+    		
+    	}
+    	
+    }
 
 func (q *Queue) Get(number int64) ([]interface{}, error)
 
