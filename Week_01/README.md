@@ -36,9 +36,11 @@ disposed  bool  //指示队列是否调用了dispose，调用了dispose 的队�
 API
 
 func (q *Queue) Put(items ...interface{}) error
+
 向队列中推入指定数据；
 检查disposed字段是否为true，如果是返回错误，如果不是推数据进队列；
 不理解：等待组的处理
+
 for {
 		sema := q.waiters.get()
 		if sema == nil {
@@ -53,6 +55,7 @@ for {
 	}
 
 func (q *Queue) Get(number int64) ([]interface{}, error)
+
 如果number < 1 返回空切片
 如果disposed 为true 返回disposed错误
 如果items的长度为0，将创建新的sema对象并推入waiters切片，等待数据传入
@@ -62,6 +65,7 @@ func (q *Queue) Get(number int64) ([]interface{}, error)
 时间复杂度和空间复杂度均为O(1)
 
 func (q *Queue) TakeUntil(checker func(item interface{}) bool) ([]interface{}, error)
+
 通过checker 获取数据切片；
 如果checker为空直接返回空；如果disposed 为true 返回disposed错误
 调用items.getUntil()方法，获取匹配数据的切片并返回。
@@ -71,21 +75,27 @@ func (q *Queue) TakeUntil(checker func(item interface{}) bool) ([]interface{}, e
 该方法不会因为queue 中没有元素而等待。
 
 func (q *Queue) Empty() bool
+
 通过判断items字段的长度是否为0，判断queue是否为空；
 
 func (q *Queue) Len() int64
+
 通过判断items的长度，判断queue的长度。
 
 func (q *Queue) Disposed() bool
+
 判断disposed的值是否为true
 
 func (q *Queue) Dispose()
+
 修改disposed的值为true
 
 func New(hint int64) *Queue
+
 创建新的队列，队列长度由hint决定
 
 func ExecuteInParallel(q *Queue, fn func(interface{}))
+
 调用方法接走queue里的数据，当所有goroutine 被耗尽后，queue将被释放。
 
 
@@ -107,28 +117,36 @@ disposed bool
 API
 
 func (pq *PriorityQueue) Put(items ...Item) error
+
 将元素推入队列，如果添加元素为空，不做任何操作返回
 循环遍历传入items，将元素添加进pq.items
 
 func (pq *PriorityQueue) Get(number int) ([]Item, error)
+
 从queue中获取number数量的数据，
 优先级的划分在pq.items.insert()方法中完成了优先级的判断，
 高优先级的数据会被插入到切片的最前面。
 
 func (pq *PriorityQueue) Peek() Item
+
 查看queue中第一个数据，当queue中为空的时候，返回nil
 
 func (pq *PriorityQueue) Empty() bool
+
 根据items的长度判断queue是否为空，当长度为0的时候，结果为true
 
 func (pq *PriorityQueue) Len() int
+
 根据items的长度获取对垒长度
 
 func (pq *PriorityQueue) Disposed() bool
+
 读取disposed 字段的值
 
 func (pq *PriorityQueue) Dispose()
+
 设置disposed 字段的值为true 重置所有切片为空触发垃圾回收，释放queue
 
 func NewPriorityQueue(hint int) *PriorityQueue 
+
 新建优先队列，初始化items 切片，设置切片长度为hint
