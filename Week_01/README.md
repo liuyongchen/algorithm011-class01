@@ -15,18 +15,26 @@ PS：
 
 2、视频作业
 作业：queue 和 priority queue源码的分析。
+
 Go语言 queue 和 priority queue源码分析
 
 Go语言中 queue 和 priority实现了同样一组API，
+
 queue源码分析
 路径：go-datastructures/queue/queue.go 
+
 Queue 结构体中包含
+
 waiters （[]*sema） //封装了 get 和 put 两个方法，用于获取和弹出sema对象。
+
 item  （[]interface{}）//用于保存数据，封装了get 和 getutil 两个方法，用于获取所需的数据
+
 lock   sync.mutex //用于对并发操作可能产生冲突的数据上锁
+
 disposed  bool  //指示队列是否调用了dispose，调用了dispose 的队列将不可用并发挥一个错误
 
 API
+
 func (q *Queue) Put(items ...interface{}) error
 向队列中推入指定数据；
 检查disposed字段是否为true，如果是返回错误，如果不是推数据进队列；
@@ -43,6 +51,7 @@ for {
 			break
 		}
 	}
+
 func (q *Queue) Get(number int64) ([]interface{}, error)
 如果number < 1 返回空切片
 如果disposed 为true 返回disposed错误
@@ -80,7 +89,6 @@ func ExecuteInParallel(q *Queue, fn func(interface{}))
 调用方法接走queue里的数据，当所有goroutine 被耗尽后，queue将被释放。
 
 
-
 priority queue 源码分析
 路径：go-datastructures/queue/priority_queue.go 
 
@@ -97,6 +105,7 @@ disposeLock sync.Mutex
 disposed bool
 
 API
+
 func (pq *PriorityQueue) Put(items ...Item) error
 将元素推入队列，如果添加元素为空，不做任何操作返回
 循环遍历传入items，将元素添加进pq.items
