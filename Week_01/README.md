@@ -42,16 +42,27 @@ func (q *Queue) Put(items ...interface{}) error
 不理解：等待组的处理
 
 for {
+
 		sema := q.waiters.get()
+		
 		if sema == nil {
+		
 			break
+			
 		}
+		
 		sema.response.Add(1)
+		
 		sema.wg.Done()
+		
 		sema.response.Wait()
+		
 		if len(q.items) == 0 {
+		
 			break
+			
 		}
+		
 	}
 
 func (q *Queue) Get(number int64) ([]interface{}, error)
