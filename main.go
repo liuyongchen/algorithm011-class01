@@ -8,4 +8,6 @@ import (
 func main() {
 	area := Week_01.MaxArea([]int{1, 8, 3, 4, 5, 3, 8, 2, 7})
 	fmt.Println(area)
+	hint := Week_01.GetHint("11", "10")
+	fmt.Println(hint)
 }
