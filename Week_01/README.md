@@ -39,6 +39,7 @@ func (q *Queue) Put(items ...interface{}) error
 
 向队列中推入指定数据；
 检查disposed字段是否为true，如果是返回错误，如果不是推数据进队列；
+
 不理解：等待组的处理
 
 for {
