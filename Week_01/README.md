@@ -68,7 +68,7 @@ item  （[]interface{}）//用于保存数据，封装了get 和 getutil 两个�
 
 lock   sync.mutex //用于对并发操作可能产生冲突的数据上锁
 
-disposed  bool  //指示队列是否调用了dispose，调用了dispose 的队列将不可用并发挥一个错误
+disposed  bool  //指示队列是否调用了dispose，调用了dispose 的队列将不可用并返回一个错误
 
 API
 
